@@ -19,18 +19,47 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 To use the module,
 
 ``` javascript
-var foo = require( 'compute-isnumeric' );
+var isnumeric = require( 'compute-isnumeric' );
 ```
 
-#### foo( arr )
+#### isnumeric( arr )
 
-What does this function do?
+Computes for each `array` element whether an element is numeric. The function returns an `array` with length equal to that of the input `array`. Each output `array` element is either `0` or `1`. A value of `1` means that an element is numeric and `0` means that an element is __not__ numeric.
+
+``` javascript
+var out = isnumeric( [ 5, 1/0, 'beep', 3, 9, NaN, true ] );
+// returns [ 1, 1, 0, 1, 1, 0, 0 ]
+```
 
 
 ## Examples
 
 ``` javascript
-var foo = require( 'compute-isnumeric' );
+var isnumeric = require( 'compute-isnumeric' );
+
+// Simulate some data...
+var data = new Array( 100 ),
+	len = data.length,
+	rand;
+
+// Every so often include a non-numeric value...
+for ( var i = 0; i < len; i++ ) {
+	rand = Math.random()*10;
+	if ( rand < 0.5 ) {
+		rand = null;
+	}
+	data[ i ] = rand;
+}
+
+var out = isnumeric( data );
+
+// Count the number of numeric values detected...
+var sum = 0;
+for ( var i = 0; i < len; i++ ) {
+	sum += out[ i ];
+}
+
+console.log( 'Count: %d', sum );
 ```
 
 To run the example code from the top-level application directory,
